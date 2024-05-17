@@ -1,3 +1,11 @@
+#project-based ignores
+*.tiff
+*.tif
+*.zarr
+*.csv
+*.tsv
+*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
