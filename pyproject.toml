@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "colour-lib"
+version = "2024.05.31"
+dependencies = [
+    "asciitree>=0.3.3",
+    "colour-science>=0.4.4",
+    "fasteners>=0.19",
+    "imagecodecs>=2024.1.1",
+    "imageio>=2.34.1",
+    "joblib>=1.4.2",
+    "numcodecs>=0.12.1",
+    "numpy>=1.26.4",
+    "pandas>=2.2.2",
+    "pillow>=10.3.0",
+    "python-dateutil>=2.9.0.post0",
+    "pytz>=2024.1",
+    "scikit-learn>=1.5.0",
+    "scipy>=1.13.1",
+    "six>=1.16.0",
+    "threadpoolctl>=3.5.0",
+    "tifffile>=2024.5.22",
+    "typing_extensions>=4.12.0",
+    "tzdata>=2024.1",
+    "zarr>=2.18.2"
+]
+requires-python = ">=3.10"
+
+description = "This is a set of building blocks of our project"
+
+readme = "README.md"
+where = ["src"]
+include = ["colour-lib*"]
+namespaces = false

@@ -1,35 +1,3 @@
-from sklearn.cross_decomposition import PLSRegression
-
-class PLSRegressor():
-  def __init__(self, train_data, reference_data):
-    self.reg = PLSRegression(n_components = train_data.shape[-1])
-    self.reg.fit(train_data, reference_data)
-
-  def predict(self, img):
-    mod_img = img.copy()
-
-    for strip in mod_img:
-      strip = self.reg.predict(strip)
-
-    # return np.clip(mod_img, 0, 1)
-    return mod_img
-
-from sklearn import linear_model
-
-class LassoRegressor():
-  def __init__(self, train_data, reference_data, alpha):
-    self.reg = linear_model.Lasso(alpha = alpha)
-    self.reg.fit(train_data, reference_data)
-
-  def predict(self, img):
-    mod_img = img.copy()
-
-    for strip in mod_img:
-      strip = self.reg.predict(strip)
-
-    # return np.clip(mod_img, 0, 1)
-    return mod_img
-  
 # from sklearn.ensemble import GradientBoostingRegressor
 # from sklearn.ensemble import RandomForestRegressor
 # from sklearn.cross_decomposition import PLSRegression
