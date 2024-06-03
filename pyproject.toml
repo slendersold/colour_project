@@ -28,10 +28,4 @@ dependencies = [
     "zarr>=2.18.2"
 ]
 requires-python = ">=3.10"
-
 description = "This is a set of building blocks of our project"
-
-readme = "README.md"
-where = ["src"]
-include = ["colour-lib*"]
-namespaces = false
