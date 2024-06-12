@@ -108,5 +108,5 @@ def Lindblooms(img, mode="RGBtoXYZ"):
         ),
     }
     for strip in mod_img:
-        strip = strip * M_t[mode]
+        strip = strip @ M_t[mode]
     return mod_img
