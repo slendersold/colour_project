@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 
+
 class CircleDetector:
     def __init__(self, image, rect_name=""):
         """
@@ -25,10 +26,10 @@ class CircleDetector:
         """
         sobelx = cv2.Sobel(image, cv2.CV_64F, 1, 0, ksize=3)
         sobely = cv2.Sobel(image, cv2.CV_64F, 0, 1, ksize=3)
-        image_processed = np.sqrt(sobelx ** 2 + sobely ** 2)
+        image_processed = np.sqrt(sobelx**2 + sobely**2)
         image_processed = cv2.convertScaleAbs(image_processed)
         return image_processed
-    
+
     def preprocessing_clahe(self, image):
         """
         Enhance the contrast of the image using CLAHE.
@@ -61,9 +62,8 @@ class CircleDetector:
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         blurred = cv2.GaussianBlur(gray, (9, 9), 0)
         image_processed = cv2.Canny(blurred, 50, 150)
-        
-        return image_processed
 
+        return image_processed
 
     def detect_coordinates(self, image, averaging_threshold):
         """
@@ -75,6 +75,7 @@ class CircleDetector:
         Returns:
         list: A list of detected circles with their coordinates and radii.
         """
+
         def is_circle(self, contour, width, tolerance=0.2):
 
             perimeter = cv2.arcLength(contour, True)
@@ -83,7 +84,7 @@ class CircleDetector:
                 return False
             circularity = 4 * np.pi * (area / (perimeter * perimeter))
             return 1 - tolerance <= circularity <= 1 + tolerance
-        
+
         def average(self, coordinates, threshold=10):
 
             def distance(coord1, coord2):
@@ -99,8 +100,10 @@ class CircleDetector:
                         break
                 if not placed:
                     unique_groups.append([coord])
-            
-            mean_values = [np.mean(group, axis=0).astype(int).tolist() for group in unique_groups]
+
+            mean_values = [
+                np.mean(group, axis=0).astype(int).tolist() for group in unique_groups
+            ]
             return mean_values
 
         # Find contours in the edge-detected image
@@ -117,10 +120,10 @@ class CircleDetector:
             radius = int(radius)
             circles_coord.append([center[0], center[1], radius])
 
-        mean_radius = int(np.mean([c[2] for c in circles_coord]))#
-        circles_coord = average(circles_coord, threshold=averaging_threshold)#
-        for contour in circles_coord:#
-            contour[2] = mean_radius#
+        mean_radius = int(np.mean([c[2] for c in circles_coord]))  #
+        circles_coord = average(circles_coord, threshold=averaging_threshold)  #
+        for contour in circles_coord:  #
+            contour[2] = mean_radius  #
 
         return circles_coord
 
@@ -141,12 +144,12 @@ class CircleDetector:
         # Sort each subgroup of 4 circles by x-coordinate
         n = 4
         for i in range(0, len(sorted_by_y), n):
-            subgroup = sorted_by_y[i:i+n]
+            subgroup = sorted_by_y[i : i + n]
             sorted_subgroup = sorted(subgroup, key=lambda item: item[0])
-            sorted_by_y[i:i+n] = sorted_subgroup
+            sorted_by_y[i : i + n] = sorted_subgroup
 
         # Characters and numbers for generating keys
-        characters = ['A', 'B', 'C', 'D']
+        characters = ["A", "B", "C", "D"]
         numbers = [6, 5, 4, 3, 2, 1]
 
         result_dict = {}
@@ -159,22 +162,20 @@ class CircleDetector:
                     key = f"{char}{num}{self.rect_name}"
                     x, y, radius = sorted_by_y[index]
                     result_dict[key] = {
-                        'x_centroid': x,
-                        'y_centroid': y,
-                        'radius': radius
+                        "x_centroid": x,
+                        "y_centroid": y,
+                        "radius": radius,
                     }
                     index += 1
 
         return result_dict
 
 
-
 # Example usage:
-image = cv2.imread('path_to_image')
+image = cv2.imread("path_to_image")
 detector = CircleDetector(image, rect_name="example")
 sobel_processed_image = detector.preprocessing_sobel()
 clahe_processed_image = detector.preprocessing_clahe(sobel_processed_image)
-general_processed_image = detector.preprocessing_general(clahe_processed_image)     
+general_processed_image = detector.preprocessing_general(clahe_processed_image)
 coordinates = detector.detect_coordinates(general_processed_image)
 coordinates = detector.coordinates_to_dict(coordinates)
-
