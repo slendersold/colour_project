@@ -14,8 +14,9 @@ class TPSRegressor:
     def predict(self, img):
         mod_img = img.copy()
 
-        for strip in mod_img:
+        for i, strip in enumerate(mod_img):
             strip = self.reg.transform(strip)
+            mod_img[i] = strip
 
         # return np.clip(mod_img, 0, 1)
         return mod_img
