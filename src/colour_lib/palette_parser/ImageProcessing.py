@@ -14,7 +14,7 @@ class ImageProcessing:
         blurred = cv2.GaussianBlur(gray, (9, 9), 0)
 
         # Apply binary thresholding to the blurred image
-        _, thresh = cv2.threshold(blurred, 200, 255, cv2.THRESH_BINARY)
+        _, thresh = cv2.threshold(blurred, 200, 255, cv2.THRESH_BINARY) #200
 
         return thresh
 
