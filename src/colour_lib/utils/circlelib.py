@@ -1,32 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from colour import XYZ_to_Lab, delta_E
-
-
-def apply_gammaCorr(img, gammas):
-    # Transpose to set channel as 1st for iter
-    _transposed = np.transpose(img, (2, 0, 1))
-
-    # Perform inverse gamma correction
-    ret = np.empty_like(_transposed)
-    for i, gamma in enumerate(gammas):
-        ret[i] = _transposed[i] ** (gamma)
-
-    # Transpose back to original shape
-    ret = np.transpose(ret, (1, 2, 0))
-    return ret
-
-
-def calculate_delta_E(observe, reference):
-    observe = XYZ_to_Lab(observe)
-    reference = XYZ_to_Lab(reference)
-    deltas = np.zeros((observe.shape[0], 1))
-    for i in range(observe.shape[0]):
-        a = reference[i, :]
-        b = observe[i, :]
-        deltas[i] = delta_E(a, b, method="CIE 2000")
-    return deltas
-
 
 def draw_circle_mask(image, coord, radius):
     mask_shape = image.shape
