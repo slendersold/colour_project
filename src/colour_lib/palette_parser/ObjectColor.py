@@ -47,11 +47,12 @@ class ObjectColor:
             if (filter in key) and ("rect" not in key)
         }
         coordinates_filtered["rect_CA"] = coordinates["rect_CA"]
+        coordinates_filtered["rect_dark"] = coordinates["rect_dark"]
 
         obj_rgb = {}
         for i, (key, values) in enumerate(coordinates_filtered.items()):
             print(key)
-            if key == "rect_CA":
+            if key == "rect_CA" or key == "rect_dark":
                 x0 = values["x0"]
                 x1 = values["x1"]
                 y0 = values["y0"]
@@ -95,8 +96,11 @@ class ObjectColor:
         # Fill the color grid with the mean colors from the obj_rgb
         for key, color in obj_rgb.items():
             if key == "rect_CA":
-                for i in range(4):
+                for i in range(2):
                     color_grid[0, i, :] = [color["r"], color["g"], color["b"]]
+            elif key == "rect_dark":
+                for i in range(2):
+                    color_grid[0, 2+i, :] = [color["r"], color["g"], color["b"]]
             else:
                 row_label = key[0]  # Extract the row label (A, B, C, ...)
                 col_label = key[1]  # Extract the column label (6, 5, 4, ...)
@@ -118,6 +122,16 @@ class ObjectColor:
         ax.set_xticks(np.arange(4))
         ax.set_xticklabels(["A", "B", "C", "D"])
         ax.set_yticks(np.arange(7))
-        ax.set_yticklabels(["CA", "6", "5", "4", "3", "2", "1"])
+        ax.set_yticklabels(["CA/B", "6", "5", "4", "3", "2", "1"])
 
-        plt.show()
+        #plt.show()
+
+        # Render the figure canvas and convert it to a NumPy array
+        fig.canvas.draw()
+        img_array = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
+        img_array = img_array.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+
+        # Close the plot
+        plt.close(fig)
+        
+        return img_array

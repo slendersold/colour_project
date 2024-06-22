@@ -204,7 +204,7 @@ class ImageAlignment:
 
         # 2. ROTATION
 
-        rotation_angle = self.position.get("rotation_angle", 0)
+        rotation_angle = -self.position.get("rotation_angle", 0)
         if rotation_angle != 0:
             print("Rotation angle:", rotation_angle)
             coordinates_unsettled = rotate_coordinates(
