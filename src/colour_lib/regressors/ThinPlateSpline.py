@@ -1,4 +1,4 @@
-from ..regressors.AbstractRegressor import AbstractRegressor
+from colour_lib.regressors.AbstractRegressor import AbstractRegressor
 from tps import ThinPlateSpline
 import numpy as np
 

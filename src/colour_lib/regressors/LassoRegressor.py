@@ -1,5 +1,5 @@
 from sklearn import linear_model
-from ..regressors.AbstractRegressor import AbstractRegressor
+from colour_lib.regressors.AbstractRegressor import AbstractRegressor
 
 
 class LassoRegressor(AbstractRegressor):

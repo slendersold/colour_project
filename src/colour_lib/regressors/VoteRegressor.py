@@ -1,24 +1,18 @@
-from ..regressors.AbstractRegressor import AbstractRegressor
+from colour_lib.regressors.AbstractRegressor import AbstractRegressor
 
-# from sklearn.ensemble import GradientBoostingRegressor
-# from sklearn.ensemble import RandomForestRegressor
-# from sklearn.cross_decomposition import PLSRegression
+from sklearn.cross_decomposition import PLSRegression
 from sklearn import linear_model
 from sklearn.ensemble import VotingRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 
-# from sklearn.svm import SVR
 from sklearn.multioutput import MultiOutputRegressor
 
 
 class VoteRegressor(AbstractRegressor):
     def __init__(self, train_data, reference_data, **kwargs):
-        # base_models = [
-        #     ("svr", SVR()),
-        #     ("rf", PLSRegression(n_components=train_data.shape[-1])),
-        # ]
         base_models = [
+            ("PLS", PLSRegression(n_components=train_data.shape[-1])),
             ("linear", LinearRegression()),
             (
                 "rf",

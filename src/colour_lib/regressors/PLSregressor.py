@@ -1,5 +1,5 @@
 from sklearn.cross_decomposition import PLSRegression
-from ..regressors.AbstractRegressor import AbstractRegressor
+from colour_lib.regressors.AbstractRegressor import AbstractRegressor
 
 
 class PLSRegressor(AbstractRegressor):
