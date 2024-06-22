@@ -10,12 +10,14 @@ from colour_lib.utils.CustomCCTF import CustomCCTF
 
 CCTF = CustomCCTF()
 
-def image_read(img, level, gammas):
+
+def image_read(img, level, type):
     store = tifffile.imread(img, aszarr=True)
     zarr_pyramids = zarr.open(store, mode="r")
     image = np.array(zarr_pyramids[level]) / 255
-    image_revert = CCTF.apply_CCTF(mode="decode", cctf_type=gammas, image=image)
+    image_revert = CCTF.apply_CCTF(mode="decode", cctf_type=type, image=image)
     return image_revert
+
 
 def calculate_delta_E(observe, reference):
     observe = XYZ_to_Lab(observe)

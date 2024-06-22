@@ -1,11 +1,12 @@
 import numpy as np
+from ..regressors.AbstractRegressor import AbstractRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.linear_model import Ridge
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.svm import SVR
 
 
-class StackedRegressor:
+class StackedRegressor(AbstractRegressor):
     def __init__(self, train_data, reference_data, random_state=None):
         # Базовые модели
         self.base_models = [

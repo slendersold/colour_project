@@ -1,12 +1,12 @@
-import numpy as np
+from ..regressors.AbstractRegressor import AbstractRegressor
 from tps import ThinPlateSpline
-from sklearn.preprocessing import StandardScaler
+import numpy as np
 
 
-class TPSRegressor:
-    def __init__(self, train_data, reference_data, alpha):
+class TPSRegressor(AbstractRegressor):
+    def __init__(self, train_data, reference_data, **kwargs):
         # Create the tps object
-        self.reg = ThinPlateSpline(alpha=alpha)  # 0 Regularization
+        self.reg = ThinPlateSpline(alpha=kwargs["alpha"])  # 0 Regularization
 
         # Fit the control and target points
         self.reg.fit(reference_data, train_data)
@@ -18,5 +18,4 @@ class TPSRegressor:
             strip = self.reg.transform(strip)
             mod_img[i] = strip
 
-        # return np.clip(mod_img, 0, 1)
-        return mod_img
+        return np.clip(mod_img, 0, 1)

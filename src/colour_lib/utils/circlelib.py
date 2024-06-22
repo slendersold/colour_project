@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def draw_circle_mask(image, coord, radius):
     mask_shape = image.shape
     coords_y, coords_x = np.ogrid[: mask_shape[0], : mask_shape[1]]
