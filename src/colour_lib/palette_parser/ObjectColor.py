@@ -100,7 +100,7 @@ class ObjectColor:
                     color_grid[0, i, :] = [color["r"], color["g"], color["b"]]
             elif key == "rect_dark":
                 for i in range(2):
-                    color_grid[0, 2+i, :] = [color["r"], color["g"], color["b"]]
+                    color_grid[0, 2 + i, :] = [color["r"], color["g"], color["b"]]
             else:
                 row_label = key[0]  # Extract the row label (A, B, C, ...)
                 col_label = key[1]  # Extract the column label (6, 5, 4, ...)
@@ -124,7 +124,7 @@ class ObjectColor:
         ax.set_yticks(np.arange(7))
         ax.set_yticklabels(["CA/B", "6", "5", "4", "3", "2", "1"])
 
-        #plt.show()
+        # plt.show()
 
         # Render the figure canvas and convert it to a NumPy array
         fig.canvas.draw()
@@ -133,5 +133,5 @@ class ObjectColor:
 
         # Close the plot
         plt.close(fig)
-        
+
         return img_array

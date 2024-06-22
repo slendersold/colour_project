@@ -47,7 +47,12 @@ class ObjectDetection:
         combined.sort(key=lambda x: x[0], reverse=True)
 
         # Define keys for the rectangles
-        keys = ["rect_CA", "rect_1000", "rect_750", "rect_500"] #, "rect_400", "rect_300"]
+        keys = [
+            "rect_CA",
+            "rect_1000",
+            "rect_750",
+            "rect_500",
+        ]  # , "rect_400", "rect_300"]
 
         # Populate the coordinates with sorted rectangles
         coordinates = {}
@@ -55,12 +60,12 @@ class ObjectDetection:
             if i < len(combined):
                 area, (y0, y1, x0, x1) = combined[i]
                 coordinates[key] = {"y0": y0, "y1": y1, "x0": x0, "x1": x1}
-        
+
         # add dark area
-        CA_h = coordinates['rect_CA']['y1'] - coordinates['rect_CA']['y0']
-        coordinates['rect_dark'] = coordinates['rect_CA'].copy()
-        coordinates['rect_dark']['y0'] = int(coordinates['rect_CA']['y1'] + 0.3*CA_h)
-        coordinates['rect_dark']['y1'] = int(coordinates['rect_CA']['y1'] + 0.6*CA_h)
+        CA_h = coordinates["rect_CA"]["y1"] - coordinates["rect_CA"]["y0"]
+        coordinates["rect_dark"] = coordinates["rect_CA"].copy()
+        coordinates["rect_dark"]["y0"] = int(coordinates["rect_CA"]["y1"] + 0.3 * CA_h)
+        coordinates["rect_dark"]["y1"] = int(coordinates["rect_CA"]["y1"] + 0.6 * CA_h)
 
         # 3. SHOW INPUT IMAGE WITH DETECTED RECTANGLES (OPTIONAL)
 
@@ -72,7 +77,7 @@ class ObjectDetection:
         else:
             return coordinates, None
 
-    def find_circles(self, image, averaging_threshold, tolerance = 0.2):
+    def find_circles(self, image, averaging_threshold, tolerance=0.2):
 
         def is_circle(contour, width, tolerance):
 

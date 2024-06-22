@@ -8,17 +8,18 @@ class ImageProcessing:
 
     def gray_thresh(self, image, scanner_type):
 
-        if scanner_type == 'huron':
+        if scanner_type == "huron":
             gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             blurred = cv2.GaussianBlur(gray, (9, 9), 0)
-            _, thresh = cv2.threshold(blurred, 200, 255, cv2.THRESH_BINARY) #200
+            _, thresh = cv2.threshold(blurred, 200, 255, cv2.THRESH_BINARY)  # 200
             return thresh
-        
-        if scanner_type == 'polaris':
-            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            thresh= cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 7, 2)
-            return (thresh)
 
+        if scanner_type == "polaris":
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            thresh = cv2.adaptiveThreshold(
+                gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 7, 2
+            )
+            return thresh
 
     def sobel(self, image):
         """
@@ -64,6 +65,7 @@ class ImageProcessing:
         Returns:
         numpy array: The edges detected in the image.
         """
+
         def auto_canny(image, sigma=0.5):
             v = np.median(image)
             lower = int(max(0, (1.0 - sigma) * v))
@@ -71,11 +73,11 @@ class ImageProcessing:
             return cv2.Canny(image, lower, upper)
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        blurred = cv2.GaussianBlur(gray, (9, 9), 0) #(9, 9)
+        blurred = cv2.GaussianBlur(gray, (9, 9), 0)  # (9, 9)
         image_processed = cv2.Canny(blurred, 50, 150)
 
         return image_processed
-    
+
     def get_brightest_color(self, image):
         image_array = np.array(image)
         brightest_color = np.amax(image_array, axis=(0, 1))
@@ -83,7 +85,7 @@ class ImageProcessing:
 
     def add_bottom_border(self, image, color, border_size=40):
         color_bgr = (color[2], color[1], color[0])
-        
+
         bordered_image = cv2.copyMakeBorder(
             image,
             top=0,
@@ -91,9 +93,9 @@ class ImageProcessing:
             left=0,
             right=0,
             borderType=cv2.BORDER_CONSTANT,
-            value=color_bgr
+            value=color_bgr,
         )
-        
+
         return bordered_image
 
     def increase_contrast(self, image, alpha=1.5, beta=0):
