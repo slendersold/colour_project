@@ -1,5 +1,5 @@
 import numpy as np
-from ..regressors.AbstractRegressor import AbstractRegressor
+from colour_lib.regressors.AbstractRegressor import AbstractRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.linear_model import Ridge
 from sklearn.multioutput import MultiOutputRegressor

@@ -1,4 +1,6 @@
 from functools import partial
+import os.path
+from typing import Literal
 
 import numpy as np
 import pandas as pd
@@ -13,10 +15,11 @@ from colour import (
 )
 from colour.models.rgb import RGB_COLOURSPACES, XYZ_to_RGB
 
-default_colref_basepath = "."
-
 
 class RawDataParser:
+    ILLUMINANT = Literal["D50", "D65"]
+    COLSPACE = Literal["sRGB", "NTSC (1987)"]
+
     def __init__(
         self,
         reference_basepath="./calibration_data/",
@@ -25,12 +28,25 @@ class RawDataParser:
         wl_step=5,
     ):
         self.reference_basepath = reference_basepath
-        self.wl_min, self.wl_max, self.wl_step = wl_min, wl_max, wl_step
         self.ref_patch_order, self.msds = self.load_msds(
             f"{reference_basepath}/wavelengths_{wl_step}nmstep.csv",
             wl_min,
             wl_max,
             wl_step,
+        )
+        self.charts = {
+            "D50": self.calculate_xyz_chart(
+                observer=MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+                illuminant=SDS_ILLUMINANTS["D50"],
+            ),
+            "D65": self.calculate_xyz_chart(
+                observer=MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+                illuminant=SDS_ILLUMINANTS["D65"],
+            ),
+        }
+        self.charts["sRGB"] = self.calculate_rgb_chart(self.charts["D65"], "sRGB")
+        self.charts["NTSC (1987)"] = self.calculate_rgb_chart(
+            self.charts["D65"], "NTSC (1987)"
         )
 
     def load_msds(self, config_path, wl_min, wl_max, wl_step):
@@ -57,20 +73,19 @@ class RawDataParser:
 
     def calculate_xyz_chart(
         self,
-        msds,
-        observer=MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
         illuminant=SDS_ILLUMINANTS["D65"],
+        observer=MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
     ):
         xyzs = (
             msds_to_XYZ(
-                msds, cmfs=observer, illuminant=illuminant, method="Integration"
+                self.msds, cmfs=observer, illuminant=illuminant, method="Integration"
             )
             / 100
         )
         assert xyzs.max() < 1
         return xyzs
 
-    def calculate_rgb_chart(self, xyz_chart, colorspace="sRGB"):
+    def calculate_rgb_chart(self, xyz_chart, colorspace: COLSPACE = "sRGB"):
         assert colorspace in ["sRGB", "NTSC (1987)", "DON RGB 4"]
 
         _colspace = RGB_COLOURSPACES[colorspace]
@@ -81,34 +96,17 @@ class RawDataParser:
         ret = np.zeros_like(xyz_chart)
         for idx, p in enumerate(xyz_chart):
             ret[idx] = XYZ_to_RGB(
-                XYZ=p, colourspace=_colspace, apply_cctf_encoding=True
+                XYZ=p, colourspace=_colspace, apply_cctf_encoding=False
             )
         ret = np.nan_to_num(ret)
         ret[ret < 0] = 0
         return ret
 
-    def get_reference_d50(self):
-        return self.calculate_xyz_chart(
-            self.msds,
-            observer=MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
-            illuminant=SDS_ILLUMINANTS["D50"],
-        )
+    def get_reference_xyz(self, illuminant: ILLUMINANT = "D65"):
+        return self.charts[illuminant]
 
-    def get_reference_d65(self):
-        return self.calculate_xyz_chart(
-            self.msds,
-            observer=MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
-            illuminant=SDS_ILLUMINANTS["D65"],
-        )
-
-    def get_reference_srgbs(self):
-        return self.calculate_rgb_chart(self.get_reference_d65(), "sRGB")
-
-    def get_reference_don4s(self):
-        return self.calculate_rgb_chart(self.get_reference_d50(), "DON RGB 4")
-
-    def get_reference_ntscs(self):
-        return self.calculate_rgb_chart(self.get_reference_d65(), "NTSC (1987)")
+    def get_reference_rgb(self, colour_space: COLSPACE = "sRGB"):
+        return self.charts[colour_space]
 
     def save_xyz_values(self):
         np.savez(
