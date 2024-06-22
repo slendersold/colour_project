@@ -44,7 +44,7 @@ class CustomCCTF:
             CanonicalMapping({name: partial(gamma_function, exponent=exponent)})
         )
         self.TF.CCTF_ENCODINGS.update(
-            CanonicalMapping({name: partial(gamma_function, exponent=exponent)})
+            CanonicalMapping({name: partial(gamma_function, exponent=1/exponent)})
         )
 
     def apply_CCTF(self, mode: MODE, cctf_type: str, image):
