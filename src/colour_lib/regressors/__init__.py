@@ -1,0 +1,5 @@
+from colour_lib.regressors.PLSregressor import PLSRegressor
+from colour_lib.regressors.LassoRegressor import LassoRegressor
+from colour_lib.regressors.StackedRegressor import StackedRegressor
+from colour_lib.regressors.ThinPlateSpline import TPSRegressor
+from colour_lib.regressors.VoteRegressor import VoteRegressor
