@@ -1,4 +1,10 @@
 # colour_project
+## Table of contents
+[Theoretical justification](#color-theory)
+[Linear colour mapping](#color-correction-methods-and-deltae-metric)
+[Histogram matching](#histogram-matching-method)
+---
+# Color theory
 [<img src="/images/Color1.png">]()
 [<img src="/images/Color2.png">]()
 [<img src="/images/Color3.png">]()
