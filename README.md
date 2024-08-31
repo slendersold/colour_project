@@ -9,6 +9,7 @@
 ## Color theory
 
 **Light..**
+
 Light is a form of electromagnetic radiation with both objective characteristics, such as spectral power distribution (SPD), and subjective characteristics, such as color, which is determined by the resulting visual sensation in the human brain.
 
 Color can be described using various models, known as color spaces, where each color is encoded by specific coordinates. The most popular color spaces include RGB, which is commonly used for scanners and digital displays, and XYZ, a color space closely approximating real cone activations in the human eye and often used as a standard for evaluating light perception.
@@ -27,9 +28,11 @@ However, in real life, achieving perfect imitation is challenging due to scanner
 ## Our project
 
 **Aim**
+
 The aim of our project is to create a color correction pipeline that brings the values obtained from scanners as close as possible to the ground truth values — the spectral power distribution (SPD) measured by a spectrophotometer. For compatibility, by default we work both with the spectral power distribution and RGB values encoded in the XYZ color space.
 
 **Project pipeline**
+
 First, we assess the XYZ values of landmark objects on a calibration palette using both the spectrophotometer (ground truth) and the scanner under investigation. These values are used for color correction and initial difference (deltaE) evaluation. Several color correction methods were implemented in our project, including PLS, Lasso, Vote, and TPS. Initially, we deployed these methods in the XYZ color space and then experimented in the RGB color space. The differences after correction were evaluated to determine the best color correction method.
 [<img src="/images/Color2.png">]()
 
@@ -37,6 +40,7 @@ First, we assess the XYZ values of landmark objects on a calibration palette usi
 Identifying the scanner values for the landmark objects was the first task. To achieve this, we developed an object detection pipeline. The input images were stored as zarr files. To minimize computational load, we initially worked with a small layer of the zarr: aligned, flipped, and rotated the image as needed and detected objects of interest. Using the coordinates obtained from the small layer, we then returned to the original coordinates to calculate the RGB values of each object using the full-resolution layer. The object detection pipeline was implemented using the OpenCV library and demonstrated reproducible results on images from different scanners.
 [<img src="/images/Color3.png">]()
 [<img src="/images/Color4.png">]()
+
 ## Color correction methods and deltaE metric. 
 
 In this section, we delve into the color correction methods applied in our project. After identifying the coordinates of the color palette circles, we proceeded to train several regression models on this test data. Specifically, we fitted four different regressors: Partial Least Squares (PLS), Lasso, Thin Plate Spline, and a Voting Regressor, which combines the predictions of the other models.
