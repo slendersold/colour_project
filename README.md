@@ -1,2 +1,2 @@
 # colour_project
-![[Color1.png]]
+![[/images/Color1.png]]
