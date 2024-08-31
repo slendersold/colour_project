@@ -1,2 +1,14 @@
 # colour_project
-[<img src="/images/Color1.png">]
+[<img src="/images/Color1.png">]()
+[<img src="/images/Color2.png">]()
+[<img src="/images/Color3.png">]()
+[<img src="/images/Color4.png">]()
+[<img src="/images/Color5.png">]()
+[<img src="/images/Color6.png">]()
+[<img src="/images/Color7.png">]()
+[<img src="/images/Color8.png">]()
+[<img src="/images/Color9.png">]()
+[<img src="/images/Color10.png">]()
+[<img src="/images/Color11.png">]()
+[<img src="/images/Color12.png">]()
+[<img src="/images/Color13.png">]()
