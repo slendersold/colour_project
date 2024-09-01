@@ -2,7 +2,7 @@
 ## Table of contents
 - [Theoretical justification](#color-theory)
 - [Our project](#our-project)
-- [Scanner RGB assessment](#scanner-rgb-assessment)
+- [Color region recognition](#сolor-region-recognition)
 - [Linear colour mapping](#color-correction-methods-and-deltae-metric)
 - [Histogram matching](#histogram-matching-method)
 ---
@@ -36,7 +36,7 @@ The aim of our project is to create a color correction pipeline that brings the 
 First, we assess the XYZ values of landmark objects on a calibration palette using both the spectrophotometer (ground truth) and the scanner under investigation. These values are used for color correction and initial difference (deltaE) evaluation. Several color correction methods were implemented in our project, including PLS, Lasso, Vote, and TPS. Initially, we deployed these methods in the XYZ color space and then experimented in the RGB color space. The differences after correction were evaluated to determine the best color correction method.
 [<img src="/images/Color2.png">]()
 
-## Scanner RGB assessment
+## Color region recognition
 Identifying the scanner values for the landmark objects was the first task. To achieve this, we developed an object detection pipeline. The input images were stored as zarr files. To minimize computational load, we initially worked with a small layer of the zarr: aligned, flipped, and rotated the image as needed and detected objects of interest. Using the coordinates obtained from the small layer, we then returned to the original coordinates to calculate the RGB values of each object using the full-resolution layer. The object detection pipeline was implemented using the OpenCV library and demonstrated reproducible results on images from different scanners.
 [<img src="/images/Color3.png">]()
 [<img src="/images/Color4.png">]()
