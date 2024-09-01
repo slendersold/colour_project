@@ -6,6 +6,8 @@
 *.tsv
 *.json
 *.txt
+.vs/
+color_env/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
